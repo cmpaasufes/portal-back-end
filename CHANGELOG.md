@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/compare/v0.0.1...v0.0.2) (2019-07-23)
+
+
+### Features
+
+* **package:** iniciando projeto ([7ee1c60](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/commit/7ee1c60))
+* **user:** started user schema ([49d8e57](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/commit/49d8e57))
+
+
+
 ### 0.0.1 (2019-07-23)
 
 
