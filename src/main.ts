@@ -1,3 +1,5 @@
+import * as DotEnv from 'dotenv';
+DotEnv.config();
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';

@@ -11,24 +11,24 @@ export interface User extends Document {
         readonly rel: string,
         readonly href: string,
     }
-    readonly facebook: {
+    readonly facebook?: {
         readonly id: string,
         readonly access_token: string,
     }
-    readonly google: {
+    readonly google?: {
         readonly id: string,
         readonly access_token: string,
         readonly id_token:string,
     },
-    readonly profile_picture: string,
-    readonly locInfo: {
+    readonly profile_picture?: string,
+    readonly locInfo?: {
         readonly country:string,
         readonly countryCode: string,
         readonly region: string,
         readonly regionName: string,
         readonly city: string,
     }
-    readonly maps: [{
+    readonly maps?: [{
         readonly _id: string,
         readonly title: string
         readonly link: {
@@ -36,7 +36,7 @@ export interface User extends Document {
             readonly href: string,
         }
     }],
-    readonly groups: [{
+    readonly groups?: [{
         readonly _id: string,
         readonly name: string,
         readonly link: {
@@ -44,7 +44,7 @@ export interface User extends Document {
             readonly href: string,
         }
     }],
-    readonly following: [{
+    readonly following?: [{
         readonly _id: string,
         readonly username: string,
         readonly link: {
@@ -52,7 +52,7 @@ export interface User extends Document {
             readonly href: string,
         }
     }],
-    readonly followers: [{
+    readonly followers?: [{
         readonly _id: string,
         readonly username: string,
         readonly link: {
@@ -60,9 +60,9 @@ export interface User extends Document {
             readonly href: string,
         }
     }],
-    readonly notifications: [{
+    readonly notifications?: [{
         readonly message: string,
         readonly readed: boolean,
     }],
-    readonly description:string,
+    readonly description?:string,
 }
