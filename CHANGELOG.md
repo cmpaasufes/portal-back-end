@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/compare/v0.2.0...v0.3.0) (2019-07-25)
+
+
+### Features
+
+* **user:** user service and controller created ([add9cf3](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/commit/add9cf3))
+
+
+
 ## [0.2.0](https://gitlab.com/taruiralab/cmpaas/cmpaas-nestjs/compare/v0.1.0...v0.2.0) (2019-07-25)
 
 
