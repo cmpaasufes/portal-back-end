@@ -1,19 +1,23 @@
-// import { Controller, Get, Post, Body } from '@nestjs/common';
-// import { CreateCatDto } from './dto/create-cat.dto';
-// import { CatsService } from './cats.service';
-// import { Cat } from './interfaces/cat.interface';
+import { Controller, Get, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { UserService } from './user.service';
+import { User } from './interfaces/user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
 
-// @Controller('cats')
-// export class CatsController {
-//   constructor(private readonly catsService: CatsService) {}
+@Controller('v1/users')
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-//   @Post()
-//   async create(@Body() createCatDto: CreateCatDto) {
-//     this.catsService.create(createCatDto);
-//   }
+  @Post()
+  async create(@Res() res, @Body() createCatDto: CreateUserDto) {
+    try {
+      return await this.userService.create(createCatDto);
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
 
-//   @Get()
-//   async findAll(): Promise<Cat[]> {
-//     return this.catsService.findAll();
-//   }
-// }
+  @Get()
+  async findAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+}

@@ -3,9 +3,9 @@ export class CreateUserDto{
     readonly surname: string;
     readonly username: string;
     readonly email: string;
-    readonly password: string;
-    readonly created: Date;
-    readonly link: {
+    public   password: string;
+    readonly created?: Date;
+    readonly link?: {
         readonly rel: string;
         readonly href: string;
     }
