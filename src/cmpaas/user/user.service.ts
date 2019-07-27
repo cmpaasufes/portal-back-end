@@ -29,4 +29,11 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return await this.userModel.find().exec();
   }
+
+  async findOne(email: string): Promise<User> {
+    let result;
+    result = await this.userModel.findOne({ email: email }).exec();
+    console.log(result)
+    return result
+  }
 }
