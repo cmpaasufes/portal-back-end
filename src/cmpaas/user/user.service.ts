@@ -30,9 +30,9 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(email: string): Promise<User> {
+  async findOne(username: string): Promise<User> {
     let result;
-    result = await this.userModel.findOne({ email: email }).exec();
+    result = await this.userModel.findOne({ username: username }).exec();
     console.log(result)
     return result
   }

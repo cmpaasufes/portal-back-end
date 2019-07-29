@@ -21,12 +21,15 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Post("email")
-  async findOne(@Res() res, @Body() createCatDto: CreateUserDto): Promise<User> {
+  @Post("login")
+  async findOne(@Res() res, @Body() createCatDto: CreateUserDto){
     try {
-      let result =  await this.userService.findOne(createCatDto.email);
-      console.log(result)
-      return result
+      let result =  await this.userService.findOne(createCatDto.username);
+      if (result != undefined){
+        res.status(HttpStatus.OK).send(result);
+      }else{
+        res.status(HttpStatus.NOT_FOUND).send([]);
+      }
     } catch (err) {
       res.status(HttpStatus.BAD_GATEWAY).json(err.message);
     }
