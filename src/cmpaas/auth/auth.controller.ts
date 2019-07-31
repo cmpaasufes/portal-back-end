@@ -24,4 +24,9 @@ export class AuthController {
     }
   }
 
+  @Get('email')
+  async sendEmail() {
+   await this.authService.example()
+  }
+
 }
