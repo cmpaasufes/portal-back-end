@@ -4,7 +4,7 @@ import { User } from './interfaces/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard('jwt'))
+
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -18,23 +18,10 @@ export class UserController {
     }
   }
 
-  
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
-  @Post("login")
-  async findOne(@Res() res, @Body() createCatDto: CreateUserDto){
-    try {
-      let result =  await this.userService.findOne(createCatDto.username);
-      if (result != undefined){
-        res.status(HttpStatus.OK).send(result);
-      }else{
-        res.status(HttpStatus.NOT_FOUND).send([]);
-      }
-    } catch (err) {
-      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
-    }
-  }
 }
