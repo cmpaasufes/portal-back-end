@@ -33,7 +33,6 @@ export class UserService {
   async findOne(username: string): Promise<User> {
     let result;
     result = await this.userModel.findOne({ username: username }).exec();
-    console.log(result)
     return result
   }
 }

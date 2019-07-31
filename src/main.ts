@@ -22,6 +22,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   app.use(cors());
+  app.setGlobalPrefix('v1');
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();

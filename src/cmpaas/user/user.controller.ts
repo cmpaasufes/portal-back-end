@@ -4,7 +4,8 @@ import { User } from './interfaces/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller("v1/users")
+@UseGuards(AuthGuard('jwt'))
+@Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -17,7 +18,7 @@ export class UserController {
     }
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAll();
