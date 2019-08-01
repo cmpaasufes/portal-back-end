@@ -11,7 +11,7 @@ export class UserService {
     private readonly userModel: Model<User>,
   ) {}
 
-  saltRounds = 10;
+  saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
   async create(createUserDto: CreateUserDto) {
     let user;
     try {
@@ -33,12 +33,29 @@ export class UserService {
   async findOne(username: string): Promise<User> {
     let result;
     result = await this.userModel.findOne({ username: username }).exec();
-    return result
+    return result;
   }
 
   async findEmail(email: string): Promise<User> {
     let result;
     result = await this.userModel.findOne({ email: email }).exec();
-    return result
+    return result;
+  }
+
+  async updatePassword(username, password): Promise<User> {
+    let result;
+    try {
+      result = await this.findOne(username);
+
+      result.password = await bcrypt.hashSync(
+        password,
+        this.saltRounds,
+      );
+
+      return await result.save();
+
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }
