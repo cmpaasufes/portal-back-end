@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-    private readonly mailerService: MailerService
+    private readonly mailerService: MailerService,
   ) {}
 
   async validateUser(username: string, pass: string) {
@@ -29,19 +29,21 @@ export class AuthService {
     };
   }
 
-  public example(): void {
-    console.log("entrei")
-    this
-      .mailerService
-      .sendMail({
-        to: '', // sender address
-        // from: 'lukas.gomes2010@gmail.com', // list of receivers
-        subject: 'Resete sua senha', // Subject line
-        text: 'mensagem de teste para resetar sua senha', // plaintext body
-        // html: '<b>link</b>', // HTML body content
-      })
-      .then(() => {})
-      .catch(() => {});
+  async sendEmail(email: string) {
+    const user = await this.usersService.findEmail(email);
+    if (user) {
+      const { password, ...result } = user;
+      const token = await this.login(result);
+      this.mailerService
+        .sendMail({
+          to: email, // sender address
+          // from: 'test.test@gmail.com', // list of receivers
+          subject: 'Resete sua senha', // Subject line
+          // text: 'test message', // plaintext body
+          html: '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' + token.access_token +'> link para resetar a senha </a>', // HTML body content
+        })
+        .then(() => {})
+        .catch(() => {});
+    }
   }
-
 }

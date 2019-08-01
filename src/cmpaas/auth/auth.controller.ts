@@ -24,9 +24,18 @@ export class AuthController {
     }
   }
 
-  @Get('email')
-  async sendEmail() {
-   await this.authService.example()
+  @Post('reset/password')
+  async sendEmail(@Res() res, @Body() email) {
+    try {
+      let result =  await this.authService.sendEmail(email.email)
+      if (result != undefined){
+        res.status(HttpStatus.OK).send(result);
+      }else{
+        res.status(HttpStatus.NOT_FOUND).send([]);
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
   }
 
 }

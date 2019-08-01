@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
+import { jwtConstants, smtpConstants } from './constants';
 import { UserModule } from '../user/user.module';
-import { LocalStrategy } from './local.strategy';
-import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './strategy/local.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthController } from './auth.controller';
-import { HandlebarsAdapter, MailerModule } from '@nest-modules/mailer';
+import { MailerModule } from '@nest-modules/mailer';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { HandlebarsAdapter, MailerModule } from '@nest-modules/mailer';
     PassportModule,
     MailerModule.forRootAsync({
       useFactory: () => ({
-        transport: 'smtps://lukas.gomes2010@gmail.com:hyen135246@smtp.gmail.com',
+        transport: smtpConstants.transport,
         defaults: {
           from:'"CMPAAS" <noreply@gmail.com>',
         },
