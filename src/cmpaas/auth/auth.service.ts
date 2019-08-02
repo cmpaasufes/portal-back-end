@@ -37,16 +37,18 @@ export class AuthService {
     if (user) {
       const { password, ...result } = user;
       const token = await this.login(result);
-      await this.mailerService
-        .sendMail({
-          to: email, // sender address
-          // from: 'test.test@gmail.com', // list of receivers
-          subject: 'Resete sua senha', // Subject line
-          // text: 'test message', // plaintext body
-          html: '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' + token.access_token +'> link para resetar a senha </a>', // HTML body content
-        })
-      .then(() => {})
-      .catch(() => {});
+      await this.mailerService.sendMail({
+        to: email, // sender address
+        // from: 'test.test@gmail.com', // list of receivers
+        subject: 'Resete sua senha', // Subject line
+        // text: 'test message', // plaintext body
+        html:
+          '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' +
+          token.access_token +
+          '> link para resetar a senha </a>', // HTML body content
+      });
+      const json = await JSON.parse('{"message":"send"}')
+      return json
     } else {
       return JSON.parse('{"message":"e-mail not found"}');
     }
