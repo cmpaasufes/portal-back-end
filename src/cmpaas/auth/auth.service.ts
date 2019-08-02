@@ -37,34 +37,30 @@ export class AuthService {
     if (user) {
       const { password, ...result } = user;
       const token = await this.login(result);
-      return token;
-      // reeturn await this.mailerService
-      //   .sendMail({
-      //     to: email, // sender address
-      //     // from: 'test.test@gmail.com', // list of receivers
-      //     subject: 'Resete sua senha', // Subject line
-      //     // text: 'test message', // plaintext body
-      //     html: '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' + token.access_token +'> link para resetar a senha </a>', // HTML body content
-      //   })
-      // .then(() => {})
-      // .catch(() => {});
-    }else {
+      await this.mailerService
+        .sendMail({
+          to: email, // sender address
+          // from: 'test.test@gmail.com', // list of receivers
+          subject: 'Resete sua senha', // Subject line
+          // text: 'test message', // plaintext body
+          html: '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' + token.access_token +'> link para resetar a senha </a>', // HTML body content
+        })
+      .then(() => {})
+      .catch(() => {});
+    } else {
       return JSON.parse('{"message":"e-mail not found"}');
     }
   }
 
-  async checkEmailToken(user) {
+  async checkEmailToken(user, req) {
     try {
-      const token = await this.jwtStrategy.validate(user.token);
-      if (token) {
-        const result = await this.usersService.updatePassword(
-          token.username,
-          user.password,
-        );
-        return result;
-      } else {
-        return JSON.parse('{"message":"token invalid"}');
-      }
-    } catch {}
+      const result = await this.usersService.updatePassword(
+        req.username,
+        user.password,
+      );
+      return result;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }

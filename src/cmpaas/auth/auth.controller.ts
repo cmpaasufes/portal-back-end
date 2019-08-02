@@ -24,10 +24,26 @@ export class AuthController {
     }
   }
 
+  
   @Post('reset/password')
   async sendEmail(@Res() res, @Body() email) {
     try {
-      let result =  await this.authService.sendEmail(email.email)
+      let result =  await this.authService.sendEmail(email.email);
+      if (result != undefined){
+        res.status(HttpStatus.OK).send(result);
+      }else{
+        res.status(HttpStatus.NOT_FOUND).send(result);
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('new/password')
+  async newPassword(@Res() res, @Body() user, @Request() req) {
+    try {
+      let result =  await this.authService.checkEmailToken(user, req.user);
       if (result != undefined){
         res.status(HttpStatus.OK).send(result);
       }else{
