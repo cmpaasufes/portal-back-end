@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { json } from 'body-parser';
 
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -41,11 +42,10 @@ export class AuthService {
         to: email, // sender address
         // from: 'test.test@gmail.com', // list of receivers
         subject: 'Resete sua senha', // Subject line
-        // text: 'test message', // plaintext body
-        html:
-          '<a href="https://www.cmpaas-frontend.herokuapp.com/newpassword/"' +
-          token.access_token +
-          '> link para resetar a senha </a>', // HTML body content
+        template: 'reset-password',
+          context:{
+            url: 'https://www.cmpaas-frontend.herokuapp.com/newpassword/' + token.access_token
+          }
       });
       const json = await JSON.parse('{"message":"send"}')
       return json
