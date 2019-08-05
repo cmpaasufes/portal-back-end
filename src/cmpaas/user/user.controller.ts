@@ -26,7 +26,7 @@ export class UserController {
       if (result != undefined) {
         res.status(HttpStatus.OK).send(result);
       } else {
-        res.status(HttpStatus.NOT_FOUND).send([]);
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"This username or e-mail is already taken"}');
       }
     } catch (err) {
       res.status(HttpStatus.BAD_GATEWAY).json(err.message);

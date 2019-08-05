@@ -17,7 +17,7 @@ export class AuthController {
       if (result != undefined){
         res.status(HttpStatus.OK).send(result);
       }else{
-        res.status(HttpStatus.NOT_FOUND).send([]);
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"username or password invalid"}');
       }
     } catch (err) {
       res.status(HttpStatus.BAD_GATEWAY).json(err.message);
@@ -32,7 +32,7 @@ export class AuthController {
       if (result != undefined){
         res.status(HttpStatus.OK).send(result);
       }else{
-        res.status(HttpStatus.NOT_FOUND).send(result);
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"e-mail not found"}');
       }
     } catch (err) {
       res.status(HttpStatus.BAD_GATEWAY).json(err.message);
@@ -47,7 +47,7 @@ export class AuthController {
       if (result != undefined){
         res.status(HttpStatus.OK).send(result);
       }else{
-        res.status(HttpStatus.NOT_FOUND).send([]);
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"token invalid"}');
       }
     } catch (err) {
       res.status(HttpStatus.BAD_GATEWAY).json(err.message);
