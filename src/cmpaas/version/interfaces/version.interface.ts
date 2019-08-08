@@ -8,11 +8,4 @@ export interface Version extends Document {
     readonly rel: string;
     readonly href: string;
   };
-  readonly map?: {
-    readonly _id: string;
-    readonly link?: {
-      readonly rel: string;
-      readonly href: string;
-    };
-  };
 }

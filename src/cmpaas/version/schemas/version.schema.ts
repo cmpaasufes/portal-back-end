@@ -21,18 +21,4 @@ export const versionSchema = new mongoose.Schema({
       type: String,
     },
   },
-  map: {
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Map',
-    },
-    link: {
-      rel: {
-        type: String,
-      },
-      href: {
-        type: String,
-      },
-    },
-  },
 });
