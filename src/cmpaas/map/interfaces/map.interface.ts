@@ -4,7 +4,7 @@ export interface Map extends Document {
   readonly title: string;
   readonly description?: string;
   readonly question?: string;
-  readonly keywords?: [];
+  readonly keywords?: [string];
   readonly created?: Date;
   readonly last_update?: Date;
   readonly author?: {

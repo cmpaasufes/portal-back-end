@@ -11,11 +11,7 @@ export const mapSchema = new mongoose.Schema({
   question: {
     type: String,
   },
-  keywords: [
-    {
-      type: String,
-    },
-  ],
+  keywords: [String],
   created: {
     type: Date,
     default: Date.now,
