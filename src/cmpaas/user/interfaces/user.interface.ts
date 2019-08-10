@@ -28,14 +28,7 @@ export interface User extends Document {
         readonly regionName: string,
         readonly city: string,
     }
-    readonly maps?: [{
-        readonly _id: string,
-        readonly title: string
-        readonly link: {
-            readonly rel: string,
-            readonly href: string,
-        }
-    }],
+    readonly maps?: [string],
     readonly groups?: [{
         readonly _id: string,
         readonly name: string,

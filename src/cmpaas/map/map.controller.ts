@@ -6,6 +6,7 @@ import {
   Res,
   HttpStatus,
   UseGuards,
+  Request
 } from '@nestjs/common';
 import { MapService } from './map.service';
 import { Map } from './interfaces/map.interface';
@@ -18,11 +19,12 @@ import { ApiUseTags, ApiImplicitBody } from '@nestjs/swagger';
 export class MapController {
   constructor(private readonly mapService: MapService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   @ApiImplicitBody({ name: 'body', required: true, type: CreateMapDto })
-  async create(@Res() res, @Body() createCatDto: CreateMapDto) {
+  async create(@Res() res, @Body() createCatDto: CreateMapDto, @Request() req) {
     try {
-      let result = await this.mapService.create(createCatDto);
+      let result = await this.mapService.saveMap(createCatDto, req.user);
       if (result != undefined) {
         res.status(HttpStatus.OK).send(result);
       } else {

@@ -1,7 +1,5 @@
-import { ApiModelProperty } from '@nestjs/swagger';
 
 export class CreateVersionDto {
-  @ApiModelProperty()
   readonly content: any;
   readonly created?: Date;
   readonly last_update?: Date;

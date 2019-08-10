@@ -47,13 +47,17 @@ export class UserService {
     try {
       result = await this.findOne(username);
 
-      result.password = await bcrypt.hashSync(
-        password,
-        this.saltRounds,
-      );
+      result.password = await bcrypt.hashSync(password, this.saltRounds);
 
       return await result.save();
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
 
+  async update(username): Promise<User> {
+    try {
+      return await username.save()
     } catch (err) {
       throw new Error(err.message);
     }

@@ -9,6 +9,10 @@ export class CreateMapDto {
   readonly question?: string;
   @ApiModelProperty()
   readonly keywords?: [string];
+  @ApiModelProperty()
+  readonly content: any;
+  readonly last_version: string;
+  readonly versions?: [string];
   readonly created?: Date;
   readonly last_update?: Date;
   readonly author?: {
@@ -61,12 +65,4 @@ export class CreateMapDto {
     readonly rel: string;
     readonly href: string;
   };
-  readonly versions?: [
-    {
-      link?: {
-        readonly rel: string;
-        readonly href: string;
-      };
-    }
-  ];
 }

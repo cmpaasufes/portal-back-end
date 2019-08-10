@@ -77,23 +77,7 @@ export const userSchema = new mongoose.Schema({
             type: String
         }
     },
-    maps: [{
-        _id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Map'
-        },
-        title: {
-            type: String
-        },
-        link: {
-            rel: {
-                type: String
-            },
-            href: {
-                type: String
-            }
-        }
-    }],
+    maps: [String],
     groups: [{
         _id: {
             type: mongoose.Schema.Types.ObjectId,

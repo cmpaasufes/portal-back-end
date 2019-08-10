@@ -57,12 +57,6 @@ export interface Map extends Document {
     readonly rel: string;
     readonly href: string;
   };
-  readonly versions?: [
-    {
-      link?: {
-        readonly rel: string;
-        readonly href: string;
-      };
-    }
-  ];
+  readonly last_version: string;
+  readonly versions?: [string];
 }

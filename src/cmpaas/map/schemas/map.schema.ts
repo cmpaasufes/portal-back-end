@@ -122,20 +122,6 @@ export const mapSchema = new mongoose.Schema({
       type: String,
     },
   },
-  versions: [
-    {
-      _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Version',
-      },
-      link: {
-        rel: {
-          type: String,
-        },
-        href: {
-          type: String,
-        },
-      },
-    },
-  ],
+  last_version: String,
+  versions: [String],
 });

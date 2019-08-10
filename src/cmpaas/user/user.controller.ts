@@ -6,6 +6,7 @@ import {
   Res,
   HttpStatus,
   UseGuards,
+  Request
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './interfaces/user.interface';
@@ -35,7 +36,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  async findOne(@Request() req): Promise<User> {
+    return this.userService.findOne(req.user.username);
   }
 }
