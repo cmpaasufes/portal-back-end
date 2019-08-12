@@ -20,8 +20,8 @@ export class MapService {
     try {
       version = await this.versionService.create(createMaprDto);
       map = new this.mapModel(createMaprDto);
-      map.last_version = version._id
-      map.versions.push(version._id)
+      map.last_version = version._id;
+      map.versions.push(version._id);
       return await map.save();
     } catch (err) {
       throw new Error(err.message);
@@ -35,20 +35,42 @@ export class MapService {
       map = await this.create(createMaprDto);
       resultUser = await this.userService.findOne(user.username);
       resultUser.maps.push(map._id);
-      return await this.userService.update(resultUser)
+      return await this.userService.update(resultUser);
     } catch (err) {
       throw new Error(err.message);
     }
   }
 
-  async findAll(): Promise<Map[]> {
-    return await this.mapModel.find().exec();
+  async findAll(user: any): Promise<Map[]> {
+    let maps = [];
+    let resultUser = await this.userService.findOne(user.username);
+    for (let index = 0; index < resultUser.maps.length; index++) {
+      maps.push(await this.findOne(resultUser.maps[index]));
+    }
+    return maps;
   }
 
-  async findOne(author: string): Promise<Map> {
+  async findAllVersions(id: any, user: any) {
+    let versions = [];
+    let maps = await this.findOne(id);
+    for (let index = 0; index < maps.versions.length; index++) {
+      versions.push(await this.versionService.findOne(maps.versions[index]));
+    }
+    return versions;
+  }
+
+  async findOneVersion(idmap: any, idversion: any, user: any) {
+    let maps = await this.findOne(idmap);
+    let version
+    if (maps.versions.includes(idversion)) {
+      version = await this.versionService.findOne(idversion);
+    }
+    return version;
+  }
+
+  async findOne(_id: string): Promise<Map> {
     let result;
-    result = await this.mapModel.findOne({ author: author }).exec();
+    result = await this.mapModel.findOne({ _id: _id }).exec();
     return result;
   }
-
 }

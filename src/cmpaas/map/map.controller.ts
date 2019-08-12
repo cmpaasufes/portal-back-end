@@ -6,7 +6,8 @@ import {
   Res,
   HttpStatus,
   UseGuards,
-  Request
+  Request,
+  Param,
 } from '@nestjs/common';
 import { MapService } from './map.service';
 import { Map } from './interfaces/map.interface';
@@ -37,7 +38,46 @@ export class MapController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async findAll(): Promise<Map[]> {
-    return this.mapService.findAll();
+  async findAll(@Res() res, @Request() req) {
+    try {
+      let result = await this.mapService.findAll(req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id/versions')
+  async findAllVersions(@Res() res, @Request() req, @Param() id) {
+    try {
+      let result = await this.mapService.findAllVersions(id.id, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':idmap/versions/:idversion')
+  async findOneVersions(@Res() res, @Request() req, @Param() params) {
+    try {
+      let result = await this.mapService.findOneVersion(params.idmap, params.idversion, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
   }
 }

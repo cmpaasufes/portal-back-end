@@ -24,9 +24,9 @@ export class VersionService {
     return await this.versionModel.find().exec();
   }
 
-  async findOne(author: string): Promise<Version> {
+  async findOne(_id: string): Promise<Version> {
     let result;
-    result = await this.versionModel.findOne({ author: author }).exec();
+    result = await this.versionModel.findOne({ _id: _id }).exec();
     return result;
   }
 

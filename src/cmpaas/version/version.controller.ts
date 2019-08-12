@@ -33,9 +33,9 @@ export class VersionController {
     }
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get()
-  async findAll(): Promise<Version[]> {
-    return this.versionService.findAll();
-  }
+  // @UseGuards(AuthGuard('jwt'))
+  // @Get()
+  // async findAll(): Promise<Version[]> {
+  //   return this.versionService.findAll();
+  // }
 }
