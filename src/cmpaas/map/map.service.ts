@@ -1,9 +1,9 @@
-import { Model } from 'mongoose';
+import { Model, model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 import { Map } from './interfaces/map.interface';
-import { CreateMapDto } from './dto/create-map.dto';
 import { VersionService } from '../version/version.service';
 import { UserService } from '../user/user.service';
+import { CreateMapDto } from './dto/create-map.dto';
 
 @Injectable()
 export class MapService {
@@ -36,6 +36,31 @@ export class MapService {
       resultUser = await this.userService.findOne(user.username);
       resultUser.maps.push(map._id);
       return await this.userService.update(resultUser);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async newContent(editMapDto: any, _id:string,  user: any) {
+    let map;
+    let version;
+    try {
+      map = await this.findOne(_id);
+      version = await this.versionService.create(editMapDto);
+      map.last_version = version._id;
+      map.versions.push(version._id);
+      return await map.save().exec();
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async editMap(updateMapDto: any, idmap ,user: any) {
+    let map
+    try {
+      map = await this.create(updateMapDto)
+      console.log(map)
+      return await updateMapDto.update({_id:idmap}, updateMapDto);
     } catch (err) {
       throw new Error(err.message);
     }

@@ -18,20 +18,20 @@ import { ApiUseTags, ApiImplicitBody } from '@nestjs/swagger';
 export class VersionController {
   constructor(private readonly versionService: VersionService) {}
 
-  @Post()
-  @ApiImplicitBody({ name: 'body', required: true, type: CreateVersionDto })
-  async create(@Res() res, @Body() createVersionDto: CreateVersionDto) {
-    try {
-      let result = await this.versionService.create(createVersionDto);
-      if (result != undefined) {
-        res.status(HttpStatus.OK).send(result);
-      } else {
-        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
-      }
-    } catch (err) {
-      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
-    }
-  }
+  // @Post()
+  // @ApiImplicitBody({ name: 'body', required: true, type: CreateVersionDto })
+  // async create(@Res() res, @Body() createVersionDto: CreateVersionDto) {
+  //   try {
+  //     let result = await this.versionService.create(createVersionDto);
+  //     if (result != undefined) {
+  //       res.status(HttpStatus.OK).send(result);
+  //     } else {
+  //       res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+  //     }
+  //   } catch (err) {
+  //     res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+  //   }
+  // }
 
   // @UseGuards(AuthGuard('jwt'))
   // @Get()

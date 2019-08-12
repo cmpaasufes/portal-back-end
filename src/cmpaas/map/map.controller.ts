@@ -8,12 +8,15 @@ import {
   UseGuards,
   Request,
   Param,
+  Put,
 } from '@nestjs/common';
 import { MapService } from './map.service';
 import { Map } from './interfaces/map.interface';
 import { CreateMapDto } from './dto/create-map.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiUseTags, ApiImplicitBody } from '@nestjs/swagger';
+import { EditMapDto } from './dto/edit-map.dto';
+import { NewMapDto } from './dto/new-content.dto';
 
 @ApiUseTags('maps')
 @Controller('maps')
@@ -52,10 +55,10 @@ export class MapController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get(':id/versions')
+  @Get(':idmap/versions')
   async findAllVersions(@Res() res, @Request() req, @Param() id) {
     try {
-      let result = await this.mapService.findAllVersions(id.id, req.user);
+      let result = await this.mapService.findAllVersions(id.idmap, req.user);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
       } else {
@@ -71,6 +74,38 @@ export class MapController {
   async findOneVersions(@Res() res, @Request() req, @Param() params) {
     try {
       let result = await this.mapService.findOneVersion(params.idmap, params.idversion, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put(':idmap')
+  @ApiImplicitBody({ name: 'body', required: true, type: EditMapDto })
+  async editMap(@Res() res, @Request() req, @Body() editMapDto: any, @Param() params) {
+    try {
+      let result = await this.mapService.editMap(editMapDto, params.idmap, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':idmap/content')
+  @ApiImplicitBody({ name: 'body', required: true, type: NewMapDto })
+  async newContent(@Res() res, @Request() req, @Body() editMapDto: any, @Param() params) {
+    try {
+      let result = await this.mapService.newContent(editMapDto, params.idmap, req.user);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
       } else {
