@@ -49,18 +49,17 @@ export class MapService {
       version = await this.versionService.create(editMapDto);
       map.last_version = version._id;
       map.versions.push(version._id);
-      return await map.save().exec();
+      return await map.save();
     } catch (err) {
       throw new Error(err.message);
     }
   }
 
-  async editMap(updateMapDto: any, idmap ,user: any) {
-    let map
+  async editMap(updateMapDto: any, idmap:string ,user: any) {
+    let result;
     try {
-      map = await this.create(updateMapDto)
-      console.log(map)
-      return await updateMapDto.update({_id:idmap}, updateMapDto);
+      result = await this.mapModel.findOneAndUpdate({_id:idmap}, updateMapDto).exec();
+      return result
     } catch (err) {
       throw new Error(err.message);
     }
