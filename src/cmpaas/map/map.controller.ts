@@ -9,6 +9,7 @@ import {
   Request,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
 import { MapService } from './map.service';
 import { Map } from './interfaces/map.interface';
@@ -106,6 +107,36 @@ export class MapController {
   async newContent(@Res() res, @Request() req, @Body() editMapDto: any, @Param() params) {
     try {
       let result = await this.mapService.newContent(editMapDto, params.idmap, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':idmap')
+  async deleteMap(@Res() res, @Request() req, @Param() params) {
+    try {
+      let result = await this.mapService.deleteMap(params.idmap, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':idmap/versions/:idversion')
+  async deleteVersion(@Res() res, @Request() req, @Param() params) {
+    try {
+      let result = await this.mapService.deleteVersion(params.idmap, params.idversion ,req.user);
       if (result != null) {
         res.status(HttpStatus.OK).send(result);
       } else {

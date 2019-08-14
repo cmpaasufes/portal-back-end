@@ -30,4 +30,10 @@ export class VersionService {
     return result;
   }
 
+  async deleteOne(_id: string): Promise<Version> {
+    let result;
+    result = await this.versionModel.findOneAndDelete({_id:_id}).exec();
+    return result;
+  }
+
 }

@@ -41,7 +41,7 @@ export class MapService {
     }
   }
 
-  async newContent(editMapDto: any, _id:string,  user: any) {
+  async newContent(editMapDto: any, _id: string, user: any) {
     let map;
     let version;
     try {
@@ -55,11 +55,25 @@ export class MapService {
     }
   }
 
-  async editMap(updateMapDto: any, idmap:string ,user: any) {
+  async editMap(updateMapDto: any, idmap: string, user: any) {
     let result;
     try {
-      result = await this.mapModel.findOneAndUpdate({_id:idmap}, updateMapDto).exec();
-      return result
+      result = await this.mapModel
+        .findOneAndUpdate({ _id: idmap }, updateMapDto)
+        .exec();
+      return result;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async updateOne(updateMapDto: any){
+    let result;
+    try {
+      result = await this.mapModel
+        .findOneAndUpdate({ _id: updateMapDto._id }, updateMapDto)
+        .exec();
+      return result;
     } catch (err) {
       throw new Error(err.message);
     }
@@ -85,7 +99,7 @@ export class MapService {
 
   async findOneVersion(idmap: any, idversion: any, user: any) {
     let maps = await this.findOne(idmap);
-    let version
+    let version;
     if (maps.versions.includes(idversion)) {
       version = await this.versionService.findOne(idversion);
     }
@@ -96,5 +110,83 @@ export class MapService {
     let result;
     result = await this.mapModel.findOne({ _id: _id }).exec();
     return result;
+  }
+
+  async deleteMap(idmap: string, user: any): Promise<Map> {
+    let result;
+    let resultUser;
+    let index;
+    try {
+      if(this.checkMapUser(user.username, idmap)){
+        result = await this.mapModel.findByIdAndDelete({_id:idmap}).exec();
+        resultUser = await this.userService.findOne(user.username);
+
+        index = resultUser.maps.indexOf(idmap)
+        resultUser.maps.splice(index,1)
+
+        result = await this.userService.update(resultUser);
+        return result;
+      }else{
+        return null;
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async deleteVersion(idmap: string, idversion: string, user: any): Promise<Map> {
+    let map;
+    let version;
+    let index;
+    try {
+      if((await this.checkMapUser(user.username, idmap)) && (await this.checkVersionMap(idmap, idversion))){
+        version = await this.versionService.deleteOne(idversion);
+        map = await this.findOne(idmap);
+
+        index = map.versions.indexOf(idversion);
+        map.versions.splice(index,1);
+
+        if(map.versions.length != 0 ){
+          map.last_version = map.versions[map.versions.length - 1];
+        }else{
+          map.last_version = "";
+        }
+
+        map = await this.updateOne(map)
+        return map;
+      }else{
+        return null
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async checkMapUser(username: string, idmap: string){
+    let user;
+    try {
+      user = await this.userService.findOne(username);
+      if(user.maps.includes(idmap)){
+        return true;
+      }else{
+        return false;
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
+  async checkVersionMap(idmap: string, idversion: string){
+    let map;
+    try {
+      map = await this.findOne(idmap);
+      if(map.versions.includes(idversion)){
+        return true;
+      }else{
+        return false;
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }
