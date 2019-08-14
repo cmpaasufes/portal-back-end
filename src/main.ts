@@ -16,6 +16,8 @@ async function bootstrap() {
   .setVersion( pacote.version )
   .addTag('CMPaaS')
   .setSchemes('http', 'https')
+  .setBasePath('v1')
+  .addBearerAuth()
   .build();
 
   const document = SwaggerModule.createDocument(app, options);
