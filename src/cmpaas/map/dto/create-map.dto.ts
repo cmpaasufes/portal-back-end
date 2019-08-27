@@ -11,7 +11,7 @@ export class CreateMapDto {
   readonly keywords?: [string];
   @ApiModelProperty()
   readonly content?: any;
-  readonly last_version: string;
+  readonly last_version: any;
   readonly versions?: [string];
   readonly created?: Date;
   readonly last_update?: Date;

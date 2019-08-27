@@ -20,7 +20,7 @@ export class MapService {
     try {
       version = await this.versionService.create(createMaprDto);
       map = new this.mapModel(createMaprDto);
-      map.last_version = version._id;
+      map.last_version = createMaprDto.content;
       map.versions.push(version._id);
       return await map.save();
     } catch (err) {
@@ -47,7 +47,7 @@ export class MapService {
     try {
       map = await this.findOne(_id);
       version = await this.versionService.create(editMapDto);
-      map.last_version = version._id;
+      map.last_version = editMapDto.content;
       map.versions.push(version._id);
       return await map.save();
     } catch (err) {
@@ -147,7 +147,7 @@ export class MapService {
         map.versions.splice(index,1);
 
         if(map.versions.length != 0 ){
-          map.last_version = map.versions[map.versions.length - 1];
+          map.last_version = this.versionService.findOne(map.versions[map.versions.length - 1])
         }else{
           map.last_version = "";
         }

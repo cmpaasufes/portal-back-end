@@ -122,6 +122,6 @@ export const mapSchema = new mongoose.Schema({
       type: String,
     },
   },
-  last_version: String,
+  last_version: mongoose.Schema.Types.Mixed,
   versions: [String],
 });
