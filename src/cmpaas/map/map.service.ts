@@ -147,7 +147,7 @@ export class MapService {
         map.versions.splice(index,1);
 
         if(map.versions.length != 0 ){
-          map.last_version = this.versionService.findOne(map.versions[map.versions.length - 1])
+          map.last_version = await this.versionService.findOne(map.versions[map.versions.length - 1])
         }else{
           map.last_version = "";
         }
