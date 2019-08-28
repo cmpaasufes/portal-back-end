@@ -24,10 +24,10 @@ export class UserController {
   @ApiResponse({ status: 200, description: 'New user was created.'})
   @ApiResponse({ status: 404, description: 'New user was not created.'})
   @ApiResponse({ status: 503, description: 'Server error.'})
-  @ApiImplicitBody({ name: 'body', required: true, type: CreateUserDto })
-  async create(@Res() res, @Body() createCatDto: CreateUserDto) {
+  @ApiImplicitBody({ name: 'CreateUserDto', required: true, type: CreateUserDto })
+  async create(@Res() res, @Body() createUserDto: CreateUserDto) {
     try {
-      let result = await this.userService.create(createCatDto);
+      let result = await this.userService.create(createUserDto);
       if (result != undefined) {
         res.status(HttpStatus.OK).send(result);
       } else {

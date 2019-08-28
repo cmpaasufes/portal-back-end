@@ -30,10 +30,10 @@ export class MapController {
   @ApiResponse({ status: 200, description: 'Map was created.'})
   @ApiResponse({ status: 404, description: 'Map was not created.'})
   @ApiResponse({ status: 503, description: 'Server error.'})
-  @ApiImplicitBody({ name: 'body', required: true, type: CreateMapDto })
-  async create(@Res() res, @Body() createCatDto: CreateMapDto, @Request() req) {
+  @ApiImplicitBody({ name: 'CreateMapDto', required: true, type: CreateMapDto })
+  async create(@Res() res, @Body() body: CreateMapDto, @Request() req) {
     try {
-      let result = await this.mapService.saveMap(createCatDto, req.user);
+      let result = await this.mapService.saveMap(body, req.user);
       if (result != undefined) {
         res.status(HttpStatus.OK).send(result);
       } else {

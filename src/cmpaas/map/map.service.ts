@@ -20,7 +20,7 @@ export class MapService {
     try {
       version = await this.versionService.create(createMaprDto);
       map = new this.mapModel(createMaprDto);
-      map.last_version = JSON.parse(createMaprDto.content);
+      map.last_version = createMaprDto.content;
       map.versions.push(version._id);
       return await map.save();
     } catch (err) {
@@ -47,7 +47,7 @@ export class MapService {
     try {
       map = await this.findOne(_id);
       version = await this.versionService.create(editMapDto);
-      map.last_version = JSON.parse(editMapDto.content);
+      map.last_version = editMapDto.content;
       map.versions.push(version._id);
       return await map.save();
     } catch (err) {

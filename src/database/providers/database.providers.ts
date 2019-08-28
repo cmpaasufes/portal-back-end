@@ -6,6 +6,6 @@ export const databaseProviders = [
   {
     provide: 'DbConnectionToken',
     useFactory: async (): Promise<typeof mongoose> =>
-      await mongoose.connect( config.uri.toString()),
+      await mongoose.connect( config.uri),
   },
 ];
