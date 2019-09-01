@@ -20,7 +20,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: aWVafBlHL64ylXsc
 
   cmpaas-backend:
-    build: ./
+    image: lukasg18/cmpaas-backend:1.0.0
     links: 
       - "mongo:mongo"
     ports: 
@@ -30,3 +30,8 @@ services:
     environment: 
       DB_URI: mongodb://mongo:27017/cmpaas?retryWrites=true&w=majority
       SMTP_CONF: smtps://cmpaas@gmail.com:Cmp@4sUFES@smtp.gmail.com
+    
+  cmpaas-frontend:
+    image: calosguilherme/cmpaasfront:cmpaasfront
+    ports:
+      - "8001:80"

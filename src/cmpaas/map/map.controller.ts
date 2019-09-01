@@ -181,7 +181,7 @@ export class MapController {
     try {
       let result = await this.mapService.deleteMap(params.idmap, req.user);
       if (result != null) {
-        res.status(HttpStatus.OK).send(result);
+        res.status(HttpStatus.OK).json('{"message":"Deletado com sucesso!"}');
       } else {
         res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
       }
@@ -211,7 +211,7 @@ export class MapController {
     try {
       let result = await this.mapService.deleteVersion(params.idmap, params.idversion ,req.user);
       if (result != null) {
-        res.status(HttpStatus.OK).send(result);
+        res.status(HttpStatus.OK).json('{"message":"Deletado com sucesso!"}');
       } else {
         res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
       }
