@@ -21,6 +21,7 @@ services:
 
   cmpaas-backend:
     image: lukasg18/cmpaas-backend:1.0.0
+    restart: always
     links: 
       - "mongo:mongo"
     ports: 
@@ -32,6 +33,7 @@ services:
       SMTP_CONF: smtps://cmpaas@gmail.com:Cmp@4sUFES@smtp.gmail.com
     
   cmpaas-frontend:
-    image: calosguilherme/cmpaasfront:cmpaasfront
+    image: lukasg18/cmpaas-frontend:1.0.0
+    restart: always
     ports:
       - "8001:80"
