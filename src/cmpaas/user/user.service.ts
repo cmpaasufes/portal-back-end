@@ -3,12 +3,13 @@ import { Injectable, Inject } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { MessageErrors } from '../common/errors'
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('UserConnectionToken')
-    private readonly userModel: Model<User>,
+    private readonly userModel: Model<User>
   ) {}
 
   saltRounds = parseInt(process.env.SALT_ROUNDS) || 10;
@@ -60,6 +61,22 @@ export class UserService {
       return await username.save()
     } catch (err) {
       throw new Error(err.message);
+    }
+  }
+
+  async checkEmail(email): Promise<User> {
+    try {
+      return await this.userModel.findOne({email:email}).exec();
+    } catch (err) {
+      throw new Error(MessageErrors.emailNotFound);
+    }
+  }
+
+  async checkUsername(username): Promise<User> {
+    try {
+      return await this.userModel.findOne({username:username}).exec();
+    } catch (err) {
+      throw new Error(MessageErrors.usernameNotFound);
     }
   }
 }
