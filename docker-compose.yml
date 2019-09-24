@@ -36,4 +36,4 @@ services:
     image: lukasg18/cmpaas-frontend:1.0.1
     restart: always
     ports:
-      - "8080:80"
+      - "80:80"
