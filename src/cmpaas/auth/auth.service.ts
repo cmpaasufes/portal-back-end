@@ -44,7 +44,7 @@ export class AuthService {
         subject: 'Resete sua senha', // Subject line
         template: 'reset-password',
           context:{
-            url: 'https://cmpaas-frontend.herokuapp.com/pages/newpassword/' + token.access_token
+            url: process.env.URL_EMAIL + token.access_token
           }
       });
       const json = await JSON.parse('{"message":"send"}')
