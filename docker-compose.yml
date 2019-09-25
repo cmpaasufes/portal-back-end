@@ -33,7 +33,7 @@ services:
       SMTP_CONF: smtps://cmpaas@gmail.com:Cmp@4sUFES@smtp.gmail.com
     
   cmpaas-frontend:
-    image: lukasg18/cmpaas-frontend:1.0.1
+    image: lukasg18/cmpaas-frontend:1.0.4
     restart: always
     ports:
       - "80:80"
