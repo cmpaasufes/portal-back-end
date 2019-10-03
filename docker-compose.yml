@@ -34,7 +34,7 @@ services:
       URL_EMAIL: http://200.137.66.10/pages/newpassword/
     
   cmpaas-frontend:
-    image: lukasg18/cmpaas-frontend:1.0.5
+    image: lukasg18/cmpaas-frontend:1.0.6
     restart: always
     ports:
       - "80:80"
