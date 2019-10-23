@@ -6,6 +6,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cors from 'cors';
 
 const pacote = require( '../package.json' );
+const fs = require( 'fs' );
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,9 @@ async function bootstrap() {
   .build();
 
   const document = SwaggerModule.createDocument(app, options);
+  fs.writeFileSync( 'swagger.json', JSON.stringify( document ) )
+
+
   SwaggerModule.setup('docs', app, document);
 
   app.use(cors());
