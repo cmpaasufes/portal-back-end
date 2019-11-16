@@ -63,6 +63,25 @@ export class MapController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Post('export/cmaps')
+  @ApiResponse({ status: 200, description: 'Map export has successful'})
+  @ApiResponse({ status: 404, description: 'Map export has not successful'})
+  @ApiResponse({ status: 503, description: 'Server error.'})
+  @ApiImplicitBody({ name: 'body', required: true, type: NewMapDto })
+  async exportMap(@Res() res, @Request() req, @Body() map: any) {
+    try {
+      let result = await this.mapService.exportMapToCmapatools(map, req.user);
+      if (result != null) {
+        res.status(HttpStatus.OK).send(result);
+      } else {
+        res.status(HttpStatus.NOT_FOUND).json('{"message":"check /docs"}');
+      }
+    } catch (err) {
+      res.status(HttpStatus.BAD_GATEWAY).json(err.message);
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
   @Get(':idmap/versions')
   @ApiImplicitParam({
     name: 'idmap',
