@@ -18,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiUseTags, ApiImplicitBody, ApiBearerAuth, ApiImplicitParam, ApiResponse } from '@nestjs/swagger';
 import { EditMapDto } from './dto/edit-map.dto';
 import { NewMapDto } from './dto/new-content.dto';
+import { ExportMapDto } from './dto/export-map.dto';
 
 @ApiUseTags('maps')
 @Controller('maps')
@@ -67,7 +68,7 @@ export class MapController {
   @ApiResponse({ status: 200, description: 'Map export has successful'})
   @ApiResponse({ status: 404, description: 'Map export has not successful'})
   @ApiResponse({ status: 503, description: 'Server error.'})
-  @ApiImplicitBody({ name: 'body', required: true, type: NewMapDto })
+  @ApiImplicitBody({ name: 'body', required: true, type: ExportMapDto })
   async exportMap(@Res() res, @Request() req, @Body() map: any) {
     try {
       let result = await this.mapService.exportMapToCmapatools(map, req.user);
